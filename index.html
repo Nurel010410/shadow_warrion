@@ -38,7 +38,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000;font-family:'Co
 .role-card[data-role="vampire"]{--glow-color:#cc0040;}
 .role-card[data-role="executioner"]{--glow-color:#ff6600;}
 .role-card[data-role="assassin"]{--glow-color:#00ffaa;}
-.role-card[data-role="Гитлер"]{--glow-color:#8800ff;}
+.role-card[data-role="Ильяз"]{--glow-color:#8800ff;}
 .role-card[data-role="human"]{--glow-color:#888888;}
 
 /* ═══════════════ GAME CONTAINER ═══════════════ */
@@ -211,9 +211,9 @@ canvas{display:block;}
       <div class="role-desc">A shadow that moves like lightning</div>
       <div class="role-passive">💨 3× movement speed<br>🌀 Ultimate: Vacuum + Instant Kill</div>
     </div>
-    <div class="role-card" data-role="Гитлер" onclick="selectRole('Гитлер')">
+    <div class="role-card" data-role="Ильяз" onclick="selectRole('Ильяз')">
       <span class="role-icon">👹</span>
-      <div class="role-name">Гитлер</div>
+      <div class="role-name">Ильяз</div>
       <div class="role-desc">Ancient warlord with demonic power</div>
       <div class="role-passive">✨ Every 5th kill summons an фашиста<br>💥 Ultimate: Titans + Map Explosions</div>
     </div>
@@ -318,7 +318,7 @@ const ROLES = {
   vampire:     { icon:'🧛', name:'VAMPIRE',     color:'#cc0040', ultIcons:['🦇','💉','🌙'], ultNames:['BAT SWARM','BLOOD DRAIN','DARK SHROUD'] },
   executioner: { icon:'🪓', name:'EXECUTIONER', color:'#ff6600', ultIcons:['⚔','🔱','💀'], ultNames:['ORBITAL BLADES','JUDGE\'S WRATH','EXECUTION'] },
   assassin:    { icon:'🗡️', name:'ASSASSIN',    color:'#00ffaa', ultIcons:['🌀','⚡','👁'], ultNames:['VACUUM KILL','SHADOW STEP','BLINK STRIKE'] },
-  Гитлер:  { icon:'👹', name:'Гитлер',  color:'#8800ff', ultIcons:['👾','💥','🌋'], ultNames:['TITAN CALL','MAP BLAST','EARTH SHATTER'] },
+  Ильяз:  { icon:'👹', name:'Ильяз',  color:'#8800ff', ultIcons:['👾','💥','🌋'], ultNames:['TITAN CALL','MAP BLAST','EARTH SHATTER'] },
   human:       { icon:'🧍', name:'HUMAN',       color:'#aaaaaa', ultIcons:['🔥','💠','☀️'], ultNames:['INFERNO','BLIZZARD','SOLAR BURST'] },
 };
 
@@ -481,7 +481,7 @@ function genTextures(s){
   ap.fillStyle(0x00aa88); ap.fillRect(26,6,3,24);
   ap.generateTexture('player_assassin',30,40); ap.destroy();
 
-  // Гитлер player — purple massive
+  // Ильяз player — purple massive
   const jp=s.make.graphics({add:false});
   jp.fillStyle(0x1a0035); jp.fillRect(4,22,10,18); jp.fillRect(20,22,10,18);
   jp.fillStyle(0x220045); jp.fillRect(2,10,30,14);
@@ -490,7 +490,7 @@ function genTextures(s){
   jp.fillStyle(0xc0a0e0); jp.fillEllipse(17,7,22,18);
   jp.fillStyle(0xaa00ff); jp.fillEllipse(10,6,5,4); jp.fillEllipse(24,6,5,4);
   jp.fillStyle(0x550088); jp.fillRect(30,4,6,32); // two-handed
-  jp.generateTexture('player_Гитлер',38,42); jp.destroy();
+  jp.generateTexture('player_Ильяз',38,42); jp.destroy();
 
   // HP bars
   const hb=s.make.graphics({add:false});
@@ -623,7 +623,7 @@ function genTextures(s){
   mlk.fillStyle(0xddddff,.6); mlk.fillEllipse(7,7,10,6);
   mlk.generateTexture('milk_proj',14,14); mlk.destroy();
 
-  // Titan (big enemy for Гитлер ult)
+  // Titan (big enemy for Ильяз ult)
   const tg=s.make.graphics({add:false});
   tg.fillStyle(0x1a0040); tg.fillRect(10,38,16,30); tg.fillRect(42,38,16,30);
   tg.fillStyle(0x220055); tg.fillRect(5,18,58,22);
@@ -764,7 +764,7 @@ class GameScene extends Phaser.Scene {
     this.weaponIdx = 0;
 
     // Role-specific state
-    this.ГитлерKillTracker = 0;        // every 5th kill → ally
+    this.ИльязKillTracker = 0;        // every 5th kill → ally
     this.orbitalSwords = [];               // executioner orbital swords
     this._orbitalAngle = 0;
 
@@ -776,7 +776,7 @@ class GameScene extends Phaser.Scene {
     this.time.delayedCall(900,()=>this.startWave(0));
 
     // Role passive aura effect
-    if(this.role==='Гитлер'){
+    if(this.role==='Ильяз'){
       document.getElementById('aura-indicator').classList.add('show');
     }
   }
@@ -798,7 +798,7 @@ class GameScene extends Phaser.Scene {
   createPlayer(){
     const tex = {
       vampire:'player_vampire', executioner:'player_executioner',
-      assassin:'player_assassin', Гитлер:'player_Гитлер', human:'player'
+      assassin:'player_assassin', Ильяз:'player_Ильяз', human:'player'
     }[this.role] || 'player';
 
     const speed = this.role==='assassin'
@@ -972,7 +972,7 @@ class GameScene extends Phaser.Scene {
 
   swordSwing(cx,cy,angle,range,halfCone,dmg,big){
     let t=0;
-    const col=this.role==='vampire'?0xff0040:this.role==='executioner'?0xff6600:this.role==='assassin'?0x00ffaa:this.role==='Гитлер'?0xaa00ff:0xaaaaff;
+    const col=this.role==='vampire'?0xff0040:this.role==='executioner'?0xff6600:this.role==='assassin'?0x00ffaa:this.role==='Ильяз'?0xaa00ff:0xaaaaff;
     this.time.addEvent({delay:16,repeat:10,callback:()=>{
       t++; const prog=t/10;
       this.swordGfx.clear();
@@ -1045,7 +1045,7 @@ class GameScene extends Phaser.Scene {
       vampire:     [()=>this.ultVampireBats(),    ()=>this.ultVampireBloodDrain(),  ()=>this.ultVampireShroud()],
       executioner: [()=>this.ultOrbitalSwords(),  ()=>this.ultJudgeWrath(),          ()=>this.ultExecution()],
       assassin:    [()=>this.ultVacuumKill(),      ()=>this.ultShadowStep(),          ()=>this.ultBlinkStrike()],
-      Гитлер:  [()=>this.ultTitanCall(),       ()=>this.ultMapBlast(),            ()=>this.ultEarthShatter()],
+      Ильяз:  [()=>this.ultTitanCall(),       ()=>this.ultMapBlast(),            ()=>this.ultEarthShatter()],
       human:       [()=>this.ultInferno(),         ()=>this.ultBlizzard(),            ()=>this.ultSolarBurst()],
     };
     const ults=roleUlts[this.role]||roleUlts.human;
@@ -1275,7 +1275,7 @@ class GameScene extends Phaser.Scene {
     this.screenShake(8,300);
   }
 
-  // ── Гитлер ULTIMATES ──
+  // ── Ильяз ULTIMATES ──
   ultTitanCall(){
     this.showFloatingText(this.player.x,this.player.y-60,'👾 TITANS RISE!','#8800ff',16);
     const p=this.player;
@@ -1643,10 +1643,10 @@ class GameScene extends Phaser.Scene {
         this.player.hp=Math.min(this.player.maxHp,this.player.hp+heal);
         if(heal>1) this.showFloatingText(this.player.x,this.player.y-30,`🩸+${Math.floor(heal)}`,'#cc0040');
       }
-      if(this.role==='Гитлер'){
-        this.ГитлерKillTracker++;
-        if(this.ГитлерKillTracker%5===0){
-          this.spawnГитлерAlly();
+      if(this.role==='Ильяз'){
+        this.ИльязKillTracker++;
+        if(this.ИльязKillTracker%5===0){
+          this.spawnИльязAlly();
         }
       }
     } else {
@@ -1675,7 +1675,7 @@ class GameScene extends Phaser.Scene {
     if(e.hpBg) this.tweens.add({targets:[e.hpBg,e.hpFill],alpha:0,duration:280});
   }
 
-  spawnГитлерAlly(){
+  spawnИльязAlly(){
     const p=this.player;
     const a=Math.random()*Math.PI*2;
     const ax=p.x+Math.cos(a)*80, ay=p.y+Math.sin(a)*80;
@@ -1936,7 +1936,7 @@ class GameScene extends Phaser.Scene {
       g.lineStyle(2,0xcc0040,0.3+pulse*0.3);
       g.strokeCircle(p.x,p.y,28+pulse*6);
     }
-    if(this.role==='Гитлер'){
+    if(this.role==='Ильяз'){
       // Swastika-like rotating star aura under feet
       this.auraGfx.clear();
       const a2=time*.001;
